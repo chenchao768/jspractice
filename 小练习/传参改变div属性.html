@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>传参改变div属性</title>
+    <style>
+        #outer{width:300px;margin:0 auto;}
+        label{width:5em;display:inline-block;text-align:right;}
+        #tips{width: 300px;height:200px;margin: 0 auto;background:green;color:#fff;}
+        button{margin-right:5px;}
+    </style>
+    <script>
+        var changeStyle = function (elem, name, value) {
+            elem.style[name] = value;
+        }
+        window.onload = function () {
+            var div = document.getElementById("tips");
+            var btn = document.getElementsByTagName("button");
+            var inputVal = document.getElementsByTagName("input");
+            btn[0].onclick = function () {
+                changeStyle(div, inputVal[0].value, inputVal[1].value);
+            };
+            btn[1].onclick = function () {
+                div.removeAttribute("style");//删除头部元素的style属性
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="outer">
+        <p><label>属性名：</label><input type="text" value="background"></p>
+        <p><label>属性值：</label><input type="text" value="green"></p>
+        <p><label></label><button>确定</button><button>重置</button></p>
+    </div>
+    <div id="tips">输入属性以及属性值改变状态</div>
+</body>
+</html>
