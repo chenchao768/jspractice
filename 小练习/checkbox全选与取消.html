@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>checkbox全选与取消</title>
+    <style>
+        body,dl,dt,dd,p{margin:0;padding:0;}
+        label,input,a{vertical-align:middle;}
+        label{padding:0 10px 0 5px;}
+        dl{margin:10px auto;width:120px;padding: 10px 5px;border:1px solid #000000;border-radius:5px;background:#fafafa;}
+        dt{padding-bottom:10px;border-bottom:1px solid #666;}
+        dt label{font-weight:700;}
+        p{margin-top:10px;}
+        span{display:block;width:350px;margin: 10px auto;}
+    </style>
+    <script>
+        window.onload=function () {
+            var oInput = document.getElementsByTagName("input");
+            var oLabel = document.getElementsByTagName("label")[0];
+            var isCheckAll = function () {//检查是否全选，是的话就展示取消，并且将全选的框勾上
+                for(var i =1,n=0;i<oInput.length;i++){
+                    oInput[i].checked && n++;
+                }
+                oInput[0].checked = n == oInput.length-1;
+                oLabel.innerHTML = oInput[0].checked ? "取消":"全选"
+            };
+            oInput[0].onclick = function () {
+                for(var i = 1;i<oInput.length;i++){
+                        oInput[i].checked = this.checked;
+                }
+            }
+            for(var i = 1;i<oInput.length;i++){
+                oInput[i].onclick = function () {
+                    isCheckAll();
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<dl>
+    <dt><input type="checkbox" id="selectAll"><label>全选</label></dt>
+    <dd>
+        <p><input type="checkbox"><label>选项一</label></p>
+        <p><input type="checkbox"><label>选项二</label></p>
+        <p><input type="checkbox"><label>选项三</label></p>
+        <p><input type="checkbox"><label>选项四</label></p>
+        <p><input type="checkbox"><label>选项五</label></p>
+        <p><input type="checkbox"><label>选项六</label></p>
+        <p><input type="checkbox"><label>选项七</label></p>
+        <p><input type="checkbox"><label>选项八</label></p>
+        <p><input type="checkbox"><label>选项九</label></p>
+    </dd>
+</dl>
+<span>1.切换全选2.根据选择状态来更新全选框状态</span>
+</body>
+</html>
