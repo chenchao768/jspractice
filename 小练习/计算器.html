@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网页计算器</title>
+    <style>
+        body,div,p,ul,li,input{margin:0;padding:0;}
+        ul{list-style-type:none;}
+        a{color:#fff;outline:none;text-decoration:none;}
+        body{font:700 24px/1.5 Arial;}
+        #calc{position: relative;margin:10px auto;width:300px;border:1px solid #ddd;}
+        #calc .font-text{width:290px;height:90px;padding:0 5px;border:0;text-align: right;font:700 50px/84px Arial;}
+        #calc ul{position: relative;overflow: hidden;zoom:1;;padding:0 0 17px 8px;}
+        #calc ul li{float: left;width:63px;height:50px;margin:17px 10px 0 0;background:#000;}
+        #calc ul li a{display: block;width: 63px;height:50px;line-height: 50px;text-align: center;}
+        #calc ul li a:hover{background:#9f8d77;}
+        #calc ul .btn-2{height:120px;position: absolute;top:200px;right:0;}
+        #calc ul .btn-2 a{height: 120px;line-height: 120px;}
+        #calc ul .btn-3{width:137px}
+        #calc ul .btn-3 a{width: 137px;}
+        #formula{position:absolute;top:5px;background:none;border:0;font:700 12px/1.5 Arial;width:280px;padding:3px 15px 0 5px;text-align:right;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oCalc = document.getElementById("calc");
+            var aA = oCalc.getElementsByTagName("a");
+            var aInput = oCalc.getElementsByTagName("input")[0];
+            var oFormula = document.getElementById("formula");
+            var s = false;
+            var i = 0;
+
+            for(i = 0;i<aA.length;i++){
+                aA[i].onfocus = function () {
+                    this.blur();
+                }
+                aA[i].onclick = function () {
+                    switch(this.innerHTML){
+                        case "c":
+                            aInput.value =  0;
+                            oFormula.value = "";
+                            break;
+                        case "%":
+                            count("%")
+                            break;
+                        case "÷":
+                            count("/")
+                            break;
+                        case "×":
+                            count("*")
+                            break;
+                        case "-":
+                            count("-")
+                            break;
+                        case "+":
+                            count("+")
+                            break;
+                        case "=":
+                            s || (oFormula.value += aInput.value);
+                            aInput.value = eval(oFormula.value.replace(/\%\/\*\-\+/,''));
+                            aInput.value = aInput.value.substr(0,10).replace("NaN",0);
+                            s = true;
+                            break;
+                        case ".":
+                            if(aInput.value.search(/[\.\%\/\*\-\+]/) != -1)
+                                break;
+                        default:
+                            s && (aInput.value = 0, oFormula.value = "", s = false);
+                            aInput.value.length < 10 && (aInput.value = (aInput.value + this.innerHTML).replace(/^[0\%\/\*\-\+](\d)/,"$1"));
+                    }
+                }
+            }
+            function count(a)
+            {
+
+                if(s)
+                {
+                    oFormula.value = aInput.value + a;
+                    aInput.value = a;
+                    s = false;
+                }
+                else
+                {
+                    /[\%\/\*\-\+]$/.test(aInput.value) || (oFormula.value += aInput.value);
+                    aInput.value = a;
+                    /[\%\/\*\-\+]$/.test(oFormula.value) || (oFormula.value += aInput.value);
+                    oFormula.value = oFormula.value.slice(-1) != a ? oFormula.value.replace(/.$/,a) : oFormula.value
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id ="calc">
+        <input class="font-text" type="text" value="0"/>
+    <ul>
+        <li class="btn-1"><a href="javascript:void(0)">c</a></li>
+        <li class="btn-1"><a href="javascript:void(0)">%</a></li>
+        <li class="btn-1"><a href="javascript:void(0)">÷</a></li>
+        <li class="btn-1"><a href="javascript:void(0)">*</a></li>
+        <li><a href="javascript:void(0)">7</a></li>
+        <li><a href="javascript:void(0)">8</a></li>
+        <li><a href="javascript:void(0)">9</a></li>
+        <li class="btn-1"><a href="javascript:void(0)">-</a></li>
+        <li><a href="javascript:void(0)">4</a></li>
+        <li><a href="javascript:void(0)">5</a></li>
+        <li><a href="javascript:void(0)">6</a></li>
+        <li class="btn-1"><a href="javascript:void(0)">+</a></li>
+        <li><a href="javascript:void(0)">1</a></li>
+        <li><a href="javascript:void(0)">2</a></li>
+        <li><a href="javascript:void(0)">3</a></li>
+        <li class="btn-2"><a href="javascript:void(0)">=</a></li>
+        <li class="btn-3"><a href="javascript:void(0)">0</a></li>
+        <li><a href="javascript:void(0)">.</a></li>
+    </ul>
+        <input id="formula" type="text" readonly="readonly" value="" />
+    </div>
+</body>
+</html>

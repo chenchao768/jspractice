@@ -34,13 +34,15 @@
             var oP = oDiv.getElementsByTagName("p")[0];
             var oH2 = oDiv.getElementsByTagName("h2")[0];
             for (var i = 0; i < oLi.length; i++) {
-                oLi[i].index = i;//注意作用域的问题，闭包陷阱
+                //oLi[i].index = i;//注意作用域的问题，闭包陷阱
+                (function (num) {
                 oLi[i].onmouseover = function () {
                     for (var n = 0; n < oLi.length; n++){oLi[n].className = "";}
-                    this.className = "current";
-                    oP.innerHTML = content[this.index];
-                    oH2.innerHTML = this.index + 1;
-                }
+                    oLi[num].className = "current";
+                    oP.innerHTML = content[num];
+                    oH2.innerHTML = num + 1;
+                }})(i);//也可以在外层加一个闭包，将i作为参数传入
+
             }
         }
     </script>
